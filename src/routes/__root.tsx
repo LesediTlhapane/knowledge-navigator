@@ -11,6 +11,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { RepoProvider } from "@/lib/repo-store";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +81,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "eStudy Course Orchestrator & Knowledge Repository" },
+      {
+        name: "description",
+        content:
+          "Internal admin dashboard for eStudy South Africa — manage research documents, orchestrate courses, and dispatch payloads to the n8n automation pipeline.",
+      },
+      { name: "author", content: "eStudy South Africa" },
+      { property: "og:title", content: "eStudy Course Orchestrator" },
+      {
+        property: "og:description",
+        content:
+          "Internal RAG-powered course generation and document control center for eStudy South Africa.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -119,8 +130,29 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <RepoProvider>
+        <SidebarProvider>
+          <div className="flex min-h-screen w-full bg-background">
+            <AppSidebar />
+            <div className="flex flex-1 flex-col">
+              <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/80 px-4 backdrop-blur">
+                <SidebarTrigger />
+                <div className="h-4 w-px bg-border" />
+                <span className="text-sm font-medium text-foreground/80">
+                  eStudy Course Orchestrator
+                </span>
+                <span className="ml-auto rounded-full bg-accent/10 px-3 py-1 text-[11px] font-medium text-accent">
+                  Internal · Secure
+                </span>
+              </header>
+              <main className="flex-1">
+                <Outlet />
+              </main>
+            </div>
+          </div>
+          <Toaster richColors position="top-right" />
+        </SidebarProvider>
+      </RepoProvider>
     </QueryClientProvider>
   );
 }
