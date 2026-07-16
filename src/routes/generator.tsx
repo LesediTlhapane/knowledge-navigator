@@ -1,13 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+<<<<<<< HEAD
 import { AlertTriangle, Loader2, Send, Sparkles, Wand2 } from "lucide-react";
+=======
+import { Loader2, Send, Sparkles, Wand2 } from "lucide-react";
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 import { BrandHeader } from "@/components/brand-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+<<<<<<< HEAD
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+=======
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 import { Badge } from "@/components/ui/badge";
 import { useRepo } from "@/lib/repo-store";
 
@@ -18,7 +25,11 @@ export const Route = createFileRoute("/generator")({
       {
         name: "description",
         content:
+<<<<<<< HEAD
           "Compose course objectives, preview the n8n-ready payload, and dispatch it to the eStudy course-generation webhook.",
+=======
+          "Compose course objectives, preview the generated RAG payload, and dispatch it to the eStudy n8n automation pipeline.",
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
       },
     ],
   }),
@@ -34,6 +45,7 @@ function titleize(prompt: string) {
     .join(" ");
 }
 
+<<<<<<< HEAD
 function makeId(prefix: string) {
   return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
@@ -88,6 +100,24 @@ function buildPayload(
 
   if (useResearch) {
     base.research_package = {
+=======
+function buildPayload(prompt: string, redact: boolean, docCount: number) {
+  const title = titleize(prompt) || "Untitled eStudy Course";
+  return {
+    taskTitle: title,
+    taskDescription: `A structured eStudy learning intervention derived from the prompt: "${prompt.trim()}". Designed for South African workplace learners with contextual scenarios and compliance-aware assessment.`,
+    branding: {
+      primary_color: "#052b66",
+      secondary_color: "#10b981",
+      logo_placement_header: "[eStudy_Logo_Header_Placeholder]",
+      logo_placement_footer: "[eStudy_Logo_Footer_Placeholder]",
+    },
+    compliance: {
+      redaction_enforced: redact,
+      frameworks: ["POPIA", "FSCA", "SAQA / NQF"],
+    },
+    researchInsights: {
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
       problem_context:
         "Operational and compliance gaps identified across South African financial services and customer engagement teams, extracted from unlocked internal research.",
       regulatory_frameworks: ["POPIA", "FSCA Conduct Standards", "SAQA NQF Level 5"],
@@ -96,6 +126,10 @@ function buildPayload(
         "Spaced retrieval assessment",
         "Reflective compliance journaling",
       ],
+<<<<<<< HEAD
+=======
+      tech_tools: ["eStudy LMS", "n8n Workflow Engine", "OpenAI GPT-4 Retriever"],
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
       scenarios_data: [
         {
           topic: "Customer objection handling",
@@ -103,6 +137,7 @@ function buildPayload(
             "[Redacted Client Name] representative fields a complaint requiring FAIS-aligned disclosure and empathetic escalation.",
         },
       ],
+<<<<<<< HEAD
     };
   } else {
     base.execution_prompt = prompt.trim();
@@ -113,10 +148,23 @@ function buildPayload(
 
 function GeneratorPage() {
   const { redactionEnforced, docs, webhookUrl, authToken } = useRepo();
+=======
+    },
+    retrieval: {
+      documents_considered: docCount,
+      source: "eStudy private vector index",
+    },
+  };
+}
+
+function GeneratorPage() {
+  const { redactionEnforced, docs, webhookUrl } = useRepo();
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
   const availableDocs = docs.filter((d) => d.status === "unlocked").length;
   const [prompt, setPrompt] = useState(
     "Build a Customer Service compliance course for financial reps",
   );
+<<<<<<< HEAD
   const [courseTemplate, setCourseTemplate] = useState("estudy-default");
   const [useResearch, setUseResearch] = useState(true);
   const [payload, setPayload] = useState<CourseGenerationPayload | null>(null);
@@ -124,15 +172,29 @@ function GeneratorPage() {
   const [lastError, setLastError] = useState<string | null>(null);
 
   const jsonString = useMemo(() => (payload ? JSON.stringify(payload, null, 2) : ""), [payload]);
+=======
+  const [payload, setPayload] = useState<object | null>(null);
+  const [dispatching, setDispatching] = useState(false);
+
+  const jsonString = useMemo(
+    () => (payload ? JSON.stringify(payload, null, 2) : ""),
+    [payload],
+  );
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 
   const generate = () => {
     if (!prompt.trim()) {
       toast.error("Enter a course objective first");
       return;
     }
+<<<<<<< HEAD
     const p = buildPayload(prompt, redactionEnforced, availableDocs, courseTemplate, useResearch);
     setPayload(p);
     setLastError(null);
+=======
+    const p = buildPayload(prompt, redactionEnforced, availableDocs);
+    setPayload(p);
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
     toast.success("Course payload generated", {
       description: `Assembled from ${availableDocs} unlocked document${
         availableDocs === 1 ? "" : "s"
@@ -143,6 +205,7 @@ function GeneratorPage() {
   const dispatch = async () => {
     if (!payload) return;
     setDispatching(true);
+<<<<<<< HEAD
     setLastError(null);
 
     try {
@@ -186,6 +249,13 @@ function GeneratorPage() {
     } finally {
       setDispatching(false);
     }
+=======
+    await new Promise((r) => setTimeout(r, 1400));
+    setDispatching(false);
+    toast.success("Payload successfully dispatched to n8n automated generation pipeline!", {
+      description: `POST → ${webhookUrl}`,
+    });
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
   };
 
   return (
@@ -193,7 +263,11 @@ function GeneratorPage() {
       <BrandHeader
         eyebrow="Course Generator"
         title="Compose · Preview · Dispatch"
+<<<<<<< HEAD
         description="Draft a course objective, generate an n8n-ready payload from unlocked research, and dispatch it to your Webhook Trigger node."
+=======
+        description="Draft a course objective, generate a branded orchestration payload from unlocked research, and hand off to the n8n automation pipeline in one motion."
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
         actions={
           <div className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs backdrop-blur">
             <span className="inline-block h-2 w-2 rounded-full bg-accent" />
@@ -218,11 +292,16 @@ function GeneratorPage() {
               <Textarea
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
+<<<<<<< HEAD
                 rows={6}
+=======
+                rows={7}
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
                 placeholder="e.g. Build a Customer Service compliance course for financial reps operating under FSCA regulations."
                 className="mt-2 resize-none"
               />
             </div>
+<<<<<<< HEAD
 
             <div>
               <Label
@@ -261,6 +340,8 @@ function GeneratorPage() {
               </Button>
             </div>
 
+=======
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline" className="border-primary/30 text-primary">
                 Redaction {redactionEnforced ? "On" : "Off"}
@@ -268,6 +349,7 @@ function GeneratorPage() {
               <Badge variant="outline" className="border-accent/40 bg-accent/10 text-accent">
                 RAG · {availableDocs} sources
               </Badge>
+<<<<<<< HEAD
               {!authToken && (
                 <Badge variant="outline" className="border-destructive/40 text-destructive">
                   No JWT token set
@@ -275,6 +357,9 @@ function GeneratorPage() {
               )}
             </div>
 
+=======
+            </div>
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
             <Button onClick={generate} size="lg" className="mt-2 gap-2">
               <Sparkles className="h-4 w-4" />
               Generate Course Payload
@@ -304,6 +389,7 @@ function GeneratorPage() {
             </Button>
           </CardHeader>
           <CardContent className="p-0">
+<<<<<<< HEAD
             {lastError && (
               <div className="flex items-start gap-2 border-b border-destructive/30 bg-destructive/10 px-6 py-3 text-xs text-destructive">
                 <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
@@ -312,6 +398,10 @@ function GeneratorPage() {
             )}
             {payload ? (
               <pre className="max-h-[520px] overflow-auto bg-primary p-6 text-[12.5px] leading-relaxed text-primary-foreground/90">
+=======
+            {payload ? (
+              <pre className="max-h-[560px] overflow-auto bg-primary p-6 text-[12.5px] leading-relaxed text-primary-foreground/90">
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
                 <code>{jsonString}</code>
               </pre>
             ) : (
@@ -320,11 +410,21 @@ function GeneratorPage() {
                   <Sparkles className="h-6 w-6" />
                 </div>
                 <div>
+<<<<<<< HEAD
                   <p className="text-sm font-semibold text-foreground">No payload generated yet</p>
                   <p className="mt-1 max-w-sm text-xs text-muted-foreground">
                     Enter a course objective on the left and press{" "}
                     <span className="font-medium text-foreground">Generate Course Payload</span> to
                     see the n8n-ready JSON here.
+=======
+                  <p className="text-sm font-semibold text-foreground">
+                    No payload generated yet
+                  </p>
+                  <p className="mt-1 max-w-sm text-xs text-muted-foreground">
+                    Enter a course objective on the left and press{" "}
+                    <span className="font-medium text-foreground">Generate Course Payload</span>{" "}
+                    to see the n8n-ready JSON here.
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
                   </p>
                 </div>
               </div>
@@ -334,4 +434,8 @@ function GeneratorPage() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602

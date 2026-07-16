@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+=======
+import { createContext, useContext, useState, type ReactNode } from "react";
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 
 export type DocStatus = "unlocked" | "locked";
 
@@ -14,13 +18,19 @@ interface RepoState {
   docs: RepoDoc[];
   redactionEnforced: boolean;
   webhookUrl: string;
+<<<<<<< HEAD
   authToken: string;
+=======
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
   addDocs: (files: File[]) => void;
   toggleLock: (id: string) => void;
   removeDoc: (id: string) => void;
   setRedaction: (v: boolean) => void;
   setWebhookUrl: (v: string) => void;
+<<<<<<< HEAD
   setAuthToken: (v: string) => void;
+=======
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 }
 
 const RepoCtx = createContext<RepoState | null>(null);
@@ -49,6 +59,7 @@ const seed: RepoDoc[] = [
   },
 ];
 
+<<<<<<< HEAD
 const DEFAULT_WEBHOOK_URL = "https://leseditlhapane.app.n8n.cloud/webhook/course-generation";
 
 // Small localStorage helpers. Guarded so this still works during SSR
@@ -93,6 +104,14 @@ export function RepoProvider({ children }: { children: ReactNode }) {
     setAuthTokenState(v);
     writeStored("estudy.authToken", v);
   };
+=======
+export function RepoProvider({ children }: { children: ReactNode }) {
+  const [docs, setDocs] = useState<RepoDoc[]>(seed);
+  const [redactionEnforced, setRedaction] = useState(true);
+  const [webhookUrl, setWebhookUrl] = useState(
+    "https://n8n.estudy.co.za/webhook/course-orchestrator",
+  );
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 
   const addDocs = (files: File[]) => {
     const now = new Date().toISOString();
@@ -115,7 +134,12 @@ export function RepoProvider({ children }: { children: ReactNode }) {
       ),
     );
 
+<<<<<<< HEAD
   const removeDoc = (id: string) => setDocs((prev) => prev.filter((d) => d.id !== id));
+=======
+  const removeDoc = (id: string) =>
+    setDocs((prev) => prev.filter((d) => d.id !== id));
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 
   return (
     <RepoCtx.Provider
@@ -123,13 +147,19 @@ export function RepoProvider({ children }: { children: ReactNode }) {
         docs,
         redactionEnforced,
         webhookUrl,
+<<<<<<< HEAD
         authToken,
+=======
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
         addDocs,
         toggleLock,
         removeDoc,
         setRedaction,
         setWebhookUrl,
+<<<<<<< HEAD
         setAuthToken,
+=======
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
       }}
     >
       {children}
@@ -147,4 +177,8 @@ export function formatBytes(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602

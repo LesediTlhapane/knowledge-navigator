@@ -17,7 +17,11 @@ export const Route = createFileRoute("/settings")({
       {
         name: "description",
         content:
+<<<<<<< HEAD
           "Configure the n8n webhook endpoint and JWT bearer token used by the eStudy course orchestrator.",
+=======
+          "Configure the n8n webhook endpoint, retry policy, and signature secret used by the eStudy course orchestrator.",
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
       },
     ],
   }),
@@ -25,15 +29,26 @@ export const Route = createFileRoute("/settings")({
 });
 
 function SettingsPage() {
+<<<<<<< HEAD
   const { webhookUrl, setWebhookUrl, authToken, setAuthToken } = useRepo();
   const [retry, setRetry] = useState(true);
+=======
+  const { webhookUrl, setWebhookUrl } = useRepo();
+  const [secret, setSecret] = useState("••••••••••••••••");
+  const [retry, setRetry] = useState(true);
+  const [verify, setVerify] = useState(true);
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6 p-6 lg:p-8">
       <BrandHeader
         eyebrow="n8n Integration"
         title="Automation Pipeline Configuration"
+<<<<<<< HEAD
         description="Point the orchestrator at your n8n workflow, attach the JWT bearer token your Webhook Trigger node expects, and choose how failures are retried."
+=======
+        description="Point the orchestrator at your n8n workflow, sign every payload with a shared HMAC secret, and choose how failures are retried."
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
       />
 
       <Card className="border-border/70">
@@ -58,6 +73,7 @@ function SettingsPage() {
           </div>
 
           <div className="flex flex-col gap-2">
+<<<<<<< HEAD
             <Label htmlFor="token">JWT bearer token</Label>
             <Input
               id="token"
@@ -72,11 +88,21 @@ function SettingsPage() {
               against the secret configured on the "JWT Auth account" credential in n8n, or
               temporarily switch that node to Header Auth while testing.
             </p>
+=======
+            <Label htmlFor="secret">HMAC signing secret</Label>
+            <Input
+              id="secret"
+              type="password"
+              value={secret}
+              onChange={(e) => setSecret(e.target.value)}
+            />
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
           </div>
 
           <div className="flex flex-col gap-3">
             <ToggleRow
               label="Automatic retry on 5xx"
+<<<<<<< HEAD
               description="Exponentially retry failed dispatches up to 3 times. (UI only for now — not yet wired into the dispatch call.)"
               checked={retry}
               onChange={setRetry}
@@ -89,6 +115,26 @@ function SettingsPage() {
               Webhook URL and token are saved to this browser automatically.
             </div>
             <Button onClick={() => toast.success("Settings saved to this browser")}>
+=======
+              description="Exponentially retry failed dispatches up to 3 times."
+              checked={retry}
+              onChange={setRetry}
+            />
+            <ToggleRow
+              label="Verify webhook response signature"
+              description="Reject responses that don't return a matching HMAC header."
+              checked={verify}
+              onChange={setVerify}
+            />
+          </div>
+
+          <div className="flex items-center justify-between border-t border-border/60 pt-4">
+            <div className="flex items-center gap-2 text-xs text-accent">
+              <CheckCircle2 className="h-4 w-4" />
+              Last successful dispatch · 2 minutes ago
+            </div>
+            <Button onClick={() => toast.success("Integration settings saved")}>
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
               Save Settings
             </Button>
           </div>
@@ -118,4 +164,8 @@ function ToggleRow({
       <Switch checked={checked} onCheckedChange={onChange} />
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 8ea3e3f4a2e128f16842673b70d39b14011c8602
